@@ -1,0 +1,133 @@
+<!--
+ CANAL INTERNET E COISAS
+ Cliente MQTT em JavaScript
+ 05/2019 - Andre Michelon
+-->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Internet e Coisas #69</title>
+  <style>
+    body {
+      padding-top: 80px;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      color: black;
+      margin: 5px;
+      
+    }
+  .gauge{
+    padding-left: 100px;
+    width: 200px;
+    height: 200px;
+  
+  }
+  .gauge2{
+    padding-left: 50px;
+    width: 200px;
+    height: 200px;
+  
+  }
+  .gauge3{
+    padding-left: 50px;
+    width: 200px;
+    height: 200px;
+  
+  }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    
+    /***************************************************
+     * Gráficos
+     */
+
+    // Instancias dos gráficos
+    google.charts.load('current', {'packages':['gauge'], 'language': 'pt-br', 'mapsApiKey': 'AIzaSyBWF8UvD9TyJSKsSCKP3PtHisRPbG4zuRA'});
+    google.charts.setOnLoadCallback(drawTemp);
+    google.charts.setOnLoadCallback(drawUmi);
+    google.charts.setOnLoadCallback(drawInt);
+    
+    // Variáveis para gráficos
+    var chartTemp;
+    var chartUmi;
+    var chartInt;
+    var dataTemp;
+    var dataUmi;
+    var dataInt;
+    var optionsTemp;
+    var optionsUmi;
+    var optionsInt;
+
+    function drawTemp() {
+      // Desenha Temperatura
+      dataTemp = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        ['Temp. °C', 20]
+      ]);
+      optionsTemp = {
+        min: -10, max: 50,
+        majorTicks: ["-10", "0", "10", "20", "30", "40", "50"],
+        minorTicks: 2,
+        greenFrom: -10, greenTo: 5,
+        greenColor: "#00c0ff",
+        redFrom: 30, redTo: 50
+      };
+      chartTemp = new google.visualization.Gauge(document.getElementById('temp'));
+      chartTemp.draw(dataTemp, optionsTemp);
+    }
+
+    function drawUmi() {
+      // Desenha Umidade
+      dataUmi = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        ['Umid. %', 60]
+      ]);
+      optionsUmi = {
+        min: 0, max: 100,
+        majorTicks: ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"],
+        minorTicks: 2,
+        redFrom: 0, redTo: 30,
+        yellowFrom: 80, yellowTo: 100
+      };
+      chartUmi = new google.visualization.Gauge(document.getElementById('umi'));
+      chartUmi.draw(dataUmi, optionsUmi);
+    }
+
+    function drawInt() {
+      // Desenha Inteiro
+      dataInt = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        ['x1000', 1000]
+      ]);
+      optionsInt = {
+        min: 0, max: 2000,
+        majorTicks: ["0", "300", "600", "900", "1200", "1500", "1800", "2100"],
+        minorTicks: 0,
+        greenFrom: 0, greenTo: 30000,
+        yellowFrom: 30000, yellowTo: 50000,
+        redFrom: 50000, redTo: 70000
+      };
+      chartInt = new google.visualization.Gauge(document.getElementById('int'));
+      chartInt.draw(dataInt, optionsInt);
+    }
+  </script>
+</head>
+<body>
+
+  <table>
+    <tbody>
+      <tr>
+        <td id="temp" class="gauge"></td>
+        <td id="umi" class="gauge2"></td>
+        <td id="int" class="gauge3"></td>
+      </tr>
+    </tbody>
+  </table>
+ 
+ 
+</body>
+
+</html>
